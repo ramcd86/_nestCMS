@@ -1,9 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from '../_services/app.service';
 import { FileService } from '../_services/file.service';
+import { StandardPageController } from '../_factories/standardpage.factory';
 
 @Controller()
 export class AppController {
+
+  public pageFactory: StandardPageController;
+
   constructor(
     private readonly appService: AppService
   ) {
@@ -12,6 +16,9 @@ export class AppController {
     }).catch((error: IDatabaseQueryResolution) => {
       console.log(error.payload);
     });
+
+    this.pageFactory = new StandardPageController('test');
+
   }
 
   @Get()
