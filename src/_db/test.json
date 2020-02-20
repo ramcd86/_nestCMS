@@ -1,3 +1,15 @@
 {
-  "test_me": "test data!"
+  "test_me": "test data!",
+  "r": [
+    {
+      "route": "page1",
+      "title": "route 1",
+      "data": "lipsum data 1"
+    },
+    {
+      "route": "page2",
+      "title": "route 2",
+      "data": "lipsum data 3"
+    }
+  ]
 }
