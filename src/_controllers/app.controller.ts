@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
 import { AppService } from '../_services/app.service';
 import { FileService } from '../_services/file.service';
 
@@ -18,10 +18,16 @@ export class AppController {
     });
   }
 
+  @Get()
+  @Render('home.hbs')
+  returnIndex() {
+    return {
+      message: 'Hello World!'
+    }
+  }
+
   @Get('r/:id')
   returnRouteConfig(@Param() param: any): any {
-    // console.log(param);
-    // console.log(this.pageRoutes);
     const dataRoute = this.pageRoutes.r.find(r => r.route === param.id);
     console.log(dataRoute);
     return this.appService.getHello();
