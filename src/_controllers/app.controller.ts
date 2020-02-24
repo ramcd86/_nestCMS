@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render, Res } from '@nestjs/common';
 import { AppService } from '../_services/app.service';
 import { FileService } from '../_services/file.service';
 import { ISite, IPageObject } from '../_interfaces/ISite.interface';
@@ -27,7 +27,24 @@ export class AppController {
       console.log(error.payload);
     });
 
-    this.factoryBuilder = {
+
+  }
+
+  // @Get()
+  @Render('home.hbs')
+  returnIndex() {
+    return {
+      // message: 'Hello World!'
+    }
+  }
+
+  @Get(':id')
+  returnRouteConfig(@Param() param: any, @Res() res: any): any {
+
+    let routeItem: any;
+    let localFactory: any;
+
+    const factoryBuilder = {
       "LANDING_PAGE": LandingpageFactory,
       "STANDARD_PAGE": StandardpageFactory,
       "FEATURED_PAGE": FeaturedpageFactory,
@@ -35,27 +52,29 @@ export class AppController {
       "NEWS_PAGE": NewspageFactory,
       "BLOG_PAGE": BlogpageFactory
     };
-  }
-
-  @Get()
-  @Render('home.hbs')
-  returnIndex() {
-    return {
-      message: 'Hello World!'
+    // let localFactory;
+    try {
+      routeItem = this.globalDataObject.pages.find(pageObject => pageObject.route === param.id) || [];
+    } catch(e) {
+      console.log(e);
     }
-  }
-
-  @Get(':id')
-  returnRouteConfig(@Param() param: any): any {
-    const routeItem: any = this.globalDataObject.pages.find(pageObject => pageObject.route === param.id) || [];
     // const
-    const localFactory = new this.factoryBuilder[routeItem.type]();
-    localFactory.init();
-    console.log(routeItem);
+
+
+     try {
+       localFactory = new factoryBuilder[routeItem.type]();
+       localFactory.init();
+       console.log(routeItem);
+     } catch (e) {
+       console.log(e);
+     }
+
 
     // const dataRoute = this.globalDataObject.find(r => r.route === param.id);
     // console.log(dataRoute);
-    return this.appService.getHello();
+    res.render('home.hbs', {
+      message: routeItem.contentItems[0].content || 'Not here'
+    });
   }
 
 
