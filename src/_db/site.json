@@ -3,7 +3,9 @@
     {
       "route": "landing",
       "type": "LANDING_PAGE",
-      "options": {},
+      "options": {
+        "template": "home.hbs"
+      },
       "contentItems": [
         {
           "content": "Landing page test content."
@@ -13,7 +15,9 @@
     {
       "route": "standard",
       "type": "STANDARD_PAGE",
-      "options": {},
+      "options": {
+        "template": "home.hbs"
+      },
       "contentItems": [
         {
           "content": "standard page test content."
@@ -23,7 +27,9 @@
     {
       "route": "featured",
       "type": "FEATURED_PAGE",
-      "options": {},
+      "options": {
+        "template": "home.hbs"
+      },
       "contentItems": [
         {
           "content": "Featured page test content."
@@ -33,7 +39,9 @@
     {
       "route": "blog",
       "type": "blog_PAGE",
-      "options": {},
+      "options": {
+        "template": "home.hbs"
+      },
       "contentItems": [
         {
           "content": "Blog page test content."
@@ -43,7 +51,9 @@
     {
       "route": "news",
       "type": "NEWS_PAGE",
-      "options": {},
+      "options": {
+        "template": "home.hbs"
+      },
       "contentItems": [
         {
           "content": "News page test content."
@@ -53,7 +63,9 @@
     {
       "route": "contact",
       "type": "CONTACT_PAGE",
-      "options": {},
+      "options": {
+        "template": "home.hbs"
+      },
       "contentItems": [
         {
           "content": "Contact page test content."

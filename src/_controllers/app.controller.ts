@@ -20,30 +20,23 @@ export class AppController {
     private readonly appService: AppService
   ) {
 
+
+
+    this.initialiseDatabaseState();
+
+  }
+
+  private initialiseDatabaseState() {
     FileService.queryDb('site').then((response: IDatabaseQueryResolution) => {
       this.globalDataObject = response.payload;
-      console.log(response.payload);
     }).catch((error: IDatabaseQueryResolution) => {
-      console.log(error.payload);
+        throw error.payload;
     });
-
-
   }
 
-  // @Get()
-  @Render('home.hbs')
-  returnIndex() {
-    return {
-      // message: 'Hello World!'
-    }
-  }
-
-  @Get(':id')
-  returnRouteConfig(@Param() param: any, @Res() res: any): any {
-
+  public routeConstructor(routeIdObject: any, globalDataObject: any) {
     let routeItem: any;
     let localFactory: any;
-
     const factoryBuilder = {
       "LANDING_PAGE": LandingpageFactory,
       "STANDARD_PAGE": StandardpageFactory,
@@ -52,29 +45,43 @@ export class AppController {
       "NEWS_PAGE": NewspageFactory,
       "BLOG_PAGE": BlogpageFactory
     };
-    // let localFactory;
-    try {
-      routeItem = this.globalDataObject.pages.find(pageObject => pageObject.route === param.id) || [];
-    } catch(e) {
-      console.log(e);
-    }
-    // const
+    return new Promise((resolve, reject) => {
+      try {
+        routeItem = globalDataObject.pages.find(pageObject => pageObject.route === routeIdObject.id) || [];
+        localFactory = new factoryBuilder[routeItem.type](routeItem);
+        localFactory.init().then((res: any) => {
+          resolve(res);
+        }).catch(() => {
+          reject('404 Page Not Found.');
+        });
+      } catch (e) {
+        console.log(e);
+        reject('404 Page Not Found.');
+      }
+    })
+  }
 
 
-     try {
-       localFactory = new factoryBuilder[routeItem.type]();
-       localFactory.init();
-       console.log(routeItem);
-     } catch (e) {
-       console.log(e);
-     }
+  @Get(':id')
+  public returnRouteConfig(@Param() param: any, @Res() responseToSend: any): any {
 
 
-    // const dataRoute = this.globalDataObject.find(r => r.route === param.id);
-    // console.log(dataRoute);
-    res.render('home.hbs', {
-      message: routeItem.contentItems[0].content || 'Not here'
-    });
+    return this.routeConstructor(param, this.globalDataObject).then((factoryResponse: any) => {
+
+      responseToSend.render(factoryResponse.options.template, {
+          message: factoryResponse.contentItems[0].content
+        });
+
+    }).catch((err: string) => {
+
+      responseToSend.render('error.hbs',{
+        message: err
+      });
+
+    })
+
+
+
   }
 
 
