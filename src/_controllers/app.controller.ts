@@ -63,24 +63,15 @@ export class AppController {
 
   @Get(':id')
   public returnRouteConfig(@Param() param: any, @Res() responseToSend: any): any {
-
-
     return this.routeConstructor(param, this.globalDataObject).then((factoryResponse: any) => {
-
       responseToSend.render(factoryResponse.options.template, {
           message: factoryResponse.contentItems[0].content
         });
-
     }).catch((err: string) => {
-
       responseToSend.render('error.hbs',{
         message: err
       });
-
     })
-
-
-
   }
 
 
