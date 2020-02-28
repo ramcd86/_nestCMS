@@ -1,13 +1,24 @@
 import { PageFactory } from './page.factory';
 
 export class StandardpageFactory extends PageFactory {
-  constructor() {
+  constructor(private contentItems: any) {
     super();
     console.log('StandardpageFactory constructor called!');
   }
 
-  public init(): void {
-    return console.log('Init called!')
+  public init() {
+
+    const allGood = true;
+
+    return new Promise((resolve, reject) => {
+
+      if (allGood) {
+        resolve(this.contentItems);
+      } else {
+        reject(console.log('Not so good.'))
+      }
+
+    })
   }
 
 }

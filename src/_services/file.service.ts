@@ -33,7 +33,7 @@ export class FileService {
         if (err) {
           reject({
             status: STATUS_FAILED,
-            payload: 'The data has not been written successfully.',
+            payload: `Data writing FAILED. Error report: ${err}`,
           });
         }
         resolve({

@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Render, Res } from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
 import { AppService } from '../_services/app.service';
 import { FileService } from '../_services/file.service';
-import { ISite, IPageObject } from '../_interfaces/ISite.interface';
+import { ISite } from '../_interfaces/ISite.interface';
 import { IDatabaseQueryResolution } from '../_interfaces/IDatabaserQueryResolution.interface';
 import { LandingpageFactory } from '../_factories/landingpage.factory';
 import { StandardpageFactory } from '../_factories/standardpage.factory';
@@ -9,6 +9,9 @@ import { FeaturedpageFactory } from '../_factories/featuredpage.factory';
 import { ContactpageFactory } from '../_factories/contactpage.factory';
 import { NewspageFactory } from '../_factories/newspage.factory';
 import { BlogpageFactory } from '../_factories/blogpage.factory';
+import { Log } from './../_utilities/constants.class';
+
+// @Todo Need to actually apply interfaces to everything in here.
 
 @Controller()
 export class AppController {
@@ -16,25 +19,21 @@ export class AppController {
   private globalDataObject: ISite;
   private readonly factoryBuilder: any;
 
-  constructor(
-    private readonly appService: AppService
-  ) {
-
-
+  constructor() {
 
     this.initialiseDatabaseState();
 
   }
 
-  private initialiseDatabaseState() {
-    FileService.queryDb('site').then((response: IDatabaseQueryResolution) => {
+  private initialiseDatabaseState(): void {
+    FileService.queryDb('sites').then((response: IDatabaseQueryResolution) => {
       this.globalDataObject = response.payload;
     }).catch((error: IDatabaseQueryResolution) => {
-        throw error.payload;
+        Log(error.payload);
     });
   }
 
-  public routeConstructor(routeIdObject: any, globalDataObject: any) {
+  public routeConstructor(routeIdObject: any, globalDataObject: any): any | any {
     let routeItem: any;
     let localFactory: any;
     const factoryBuilder = {
