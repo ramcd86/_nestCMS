@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res } from '@nestjs/common';
 import { AppService } from '../_services/app.service';
 import { FileService } from '../_services/file.service';
-import { ISite } from '../_interfaces/ISite.interface';
+import { ISite, ISiteContentItems,ISiteOptions, ISitePageObject, IRouteResponse } from '../_interfaces/ISite.interface';
 import { IDatabaseQueryResolution } from '../_interfaces/IDatabaserQueryResolution.interface';
 import { LandingpageFactory } from '../_factories/landingpage.factory';
 import { StandardpageFactory } from '../_factories/standardpage.factory';
@@ -13,11 +13,12 @@ import { Log } from './../_utilities/constants.class';
 
 // @Todo Need to actually apply interfaces to everything in here.
 
+
+
 @Controller()
 export class AppController {
 
   private globalDataObject: ISite;
-  private readonly factoryBuilder: any;
 
   constructor() {
 
@@ -26,16 +27,16 @@ export class AppController {
   }
 
   private initialiseDatabaseState(): void {
-    FileService.queryDb('sites').then((response: IDatabaseQueryResolution) => {
+    FileService.queryDb('site').then((response: IDatabaseQueryResolution) => {
       this.globalDataObject = response.payload;
     }).catch((error: IDatabaseQueryResolution) => {
         Log(error.payload);
     });
   }
 
-  public routeConstructor(routeIdObject: any, globalDataObject: any): any | any {
-    let routeItem: any;
-    let localFactory: any;
+  public routeConstructor(routeIdObject: IRouteResponse, globalDataObject: ISite): Promise<ISitePageObject | string> {
+    let routeItem: ISitePageObject;
+    let localFactory: LandingpageFactory | StandardpageFactory | FeaturedpageFactory | ContactpageFactory | NewspageFactory | BlogpageFactory;
     const factoryBuilder = {
       "LANDING_PAGE": LandingpageFactory,
       "STANDARD_PAGE": StandardpageFactory,
@@ -46,9 +47,9 @@ export class AppController {
     };
     return new Promise((resolve, reject) => {
       try {
-        routeItem = globalDataObject.pages.find(pageObject => pageObject.route === routeIdObject.id) || [];
+        routeItem = globalDataObject.pages.find(pageObject => pageObject.route === routeIdObject.id);
         localFactory = new factoryBuilder[routeItem.type](routeItem);
-        localFactory.init().then((res: any) => {
+        localFactory.init().then((res: ISitePageObject) => {
           resolve(res);
         }).catch(() => {
           reject('404 Page Not Found.');
@@ -62,10 +63,10 @@ export class AppController {
 
 
   @Get(':id')
-  public returnRouteConfig(@Param() param: any, @Res() responseToSend: any): any {
+  public returnRouteConfig(@Param() param: IRouteResponse, @Res() responseToSend: any ): any {
 
 
-    return this.routeConstructor(param, this.globalDataObject).then((factoryResponse: any) => {
+    return this.routeConstructor(param, this.globalDataObject).then((factoryResponse: ISitePageObject) => {
 
       responseToSend.render(factoryResponse.options.template, {
           message: factoryResponse.contentItems[0].content
