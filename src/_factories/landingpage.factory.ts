@@ -1,8 +1,5 @@
-import { PageFactory } from './page.factory';
-
-export class LandingpageFactory extends PageFactory {
+export class LandingpageFactory {
   constructor(private contentItems: any) {
-    super();
     console.log('LandingpageFactory constructor called!');
   }
 
@@ -15,10 +12,10 @@ export class LandingpageFactory extends PageFactory {
       if (allGood) {
         resolve(this.contentItems);
       } else {
-        reject(console.log('Not so good.'))
+        reject(console.log('Not so good.'));
       }
 
-    })
+    });
   }
 
 }

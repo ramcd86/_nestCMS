@@ -1,8 +1,5 @@
-import { PageFactory } from './page.factory';
-
-export class BlogpageFactory extends PageFactory {
+export class BlogpageFactory {
   constructor(private contentItems: any) {
-    super();
     console.log('BlogpageFactory constructor called!');
   }
 
@@ -15,10 +12,10 @@ export class BlogpageFactory extends PageFactory {
       if (allGood) {
         resolve(this.contentItems);
       } else {
-        reject(console.log('Not so good.'))
+        reject(console.log('Not so good.'));
       }
 
-    })
+    });
   }
 
 }
