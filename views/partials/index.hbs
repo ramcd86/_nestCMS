@@ -7,7 +7,12 @@
 </head>
 
 <body>
-ye
+
+<div>
+        {{#each pageData.routes}}
+            <a href="/{{this.routeActual}}" style="display: inline-block"> {{this.routeAlias}} </a>
+        {{/each}}
+</div>
 {{{body}}}
 
 </body>

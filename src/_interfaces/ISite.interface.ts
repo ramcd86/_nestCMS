@@ -5,15 +5,24 @@ import { ContactpageFactory } from '../_factories/contactpage.factory';
 import { NewspageFactory } from '../_factories/newspage.factory';
 import { BlogpageFactory } from '../_factories/blogpage.factory';
 
+
 export interface ISite {
+  errorPage: ISitePageObject;
   pages: ISitePageObject[];
 }
 
 export interface ISitePageObject {
-  route: string;
+  route: IRouteObject;
   type: string;
   options: ISiteOptions;
   contentItems: ISiteContentItems[];
+}
+
+export interface IRouteObject {
+  routeString: string;
+  routeActual: string;
+  routeShown: boolean;
+  subRoutes: string[];
 }
 
 export interface ISiteContentItems {

@@ -1,10 +1,50 @@
 {
+  "errorPage": 
+    {
+      "route": { 
+        "routeAlias": "Error Page",
+        "routeActual": "errorpage",
+        "routeShown": false,
+        "subRoutes": []
+       },
+      "type": "ERROR_PAGE",
+      "options": {
+        "template": "templates/error_page.hbs"
+      },
+      "contentItems": [
+        {
+          "content": "404 Page Not Found."
+        }
+      ]
+    },
   "pages": [
     {
-      "route": "landing",
+      "route": { 
+        "routeAlias": "Home Page",
+        "routeActual": "home",
+        "routeShown": true,
+        "subRoutes": []
+       },
+      "type": "HOME_PAGE",
+      "options": {
+        "template": "templates/home_page.hbs"
+      },
+      "contentItems": [
+        {
+          "content": "Home page test content."
+        }
+      ]
+    },
+    {
+      "route": { 
+        "routeAlias": "Landing Page",
+        "routeActual": "landingpage",
+        "routeShown": true,
+        "subRoutes": []
+       },
       "type": "LANDING_PAGE",
       "options": {
-        "template": "home.hbs"
+        "template": "templates/landing_page.hbs"
       },
       "contentItems": [
         {
@@ -13,10 +53,15 @@
       ]
     },
     {
-      "route": "standard",
+      "route": { 
+        "routeAlias": "Standard Page",
+        "routeActual": "standardpage",
+        "routeShown": true,
+        "subRoutes": []
+       },
       "type": "STANDARD_PAGE",
       "options": {
-        "template": "home.hbs"
+        "template": "templates/standard_page.hbs"
       },
       "contentItems": [
         {
@@ -25,10 +70,15 @@
       ]
     },
     {
-      "route": "featured",
+      "route": { 
+        "routeAlias": "Featured Page",
+        "routeActual": "featuredpage",
+        "routeShown": true,
+        "subRoutes": []
+       },
       "type": "FEATURED_PAGE",
       "options": {
-        "template": "home.hbs"
+        "template": "templates/featured_page.hbs"
       },
       "contentItems": [
         {
@@ -37,10 +87,15 @@
       ]
     },
     {
-      "route": "blog",
-      "type": "blog_PAGE",
+      "route": { 
+        "routeAlias": "Blog Page",
+        "routeActual": "blogpage",
+        "routeShown": true,
+        "subRoutes": []
+       },
+      "type": "BLOG_PAGE",
       "options": {
-        "template": "home.hbs"
+        "template": "templates/blog_page.hbs"
       },
       "contentItems": [
         {
@@ -49,10 +104,15 @@
       ]
     },
     {
-      "route": "news",
+      "route": { 
+        "routeAlias": "News Page",
+        "routeActual": "newspage",
+        "routeShown": true,
+        "subRoutes": []
+       },
       "type": "NEWS_PAGE",
       "options": {
-        "template": "home.hbs"
+        "template": "templates/news_page.hbs"
       },
       "contentItems": [
         {
@@ -61,10 +121,15 @@
       ]
     },
     {
-      "route": "contact",
+      "route": { 
+        "routeAlias": "Contact Page",
+        "routeActual": "contactpage",
+        "routeShown": true,
+        "subRoutes": []
+       },
       "type": "CONTACT_PAGE",
       "options": {
-        "template": "home.hbs"
+        "template": "templates/landing_page.hbs"
       },
       "contentItems": [
         {
