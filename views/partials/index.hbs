@@ -9,6 +9,10 @@
 <body>
 
 <div>
+
+    {{> navigation_area}}
+
+
         {{#each pageData.routes}}
             <a href="/{{this.routeActual}}" style="display: inline-block"> {{this.routeAlias}} </a>
         {{/each}}

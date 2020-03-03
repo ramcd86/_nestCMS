@@ -89,17 +89,17 @@ export class AppController {
    */
 
   @Get('')
-  public homeRouteProvider(@Param() param: IRouteResponse, @Res() responseToSend: any): any {
-    param.id = 'home';
-    return this.routeConstructor(param, this.globalDataObject).then((factoryResponse: ISitePageObject) => {
-      responseToSend.render(factoryResponse.options.template, {
+  public homeRouteProvider(@Res() responseToSend: any): any {
+    // param.id = 'home';
+    this.routeConstructor({ id: 'home' }, this.globalDataObject).then((factoryResponse: ISitePageObject) => {
+      return responseToSend.render(factoryResponse.options.template, {
         pageData: {
           routes: this.getPageProps("GET_ROUTES")
         },
         message: factoryResponse.contentItems[0].content,
       });
     }).catch((err: string) => {
-      responseToSend.render('error.hbs', {
+      return responseToSend.render('error.hbs', {
         pageData: [],
         message: err,
       });
@@ -129,6 +129,7 @@ export class AppController {
     });
 
   }
+  
 
 
   public getPageProps(command: string): string[] {
