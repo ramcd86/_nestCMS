@@ -1,0 +1,38 @@
+{
+    "pages": [
+        {
+            "pageName": "Home",
+            "pageTemplate": "home_page",
+            "pageSlug": "home",
+            "pageComponents": [
+                {
+                    "componentName": "Text Component",
+                    "componentTemplate": "text_component",
+                    "content": {
+                        "header": "header 1",
+                        "subHeader": "subheader 1",
+                        "paragraph": "Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum "
+                    }
+                },
+                {
+                    "componentName": "Text Component",
+                    "componentTemplate": "text_component",
+                    "content": {
+                        "header": "header 2",
+                        "subHeader": "subheader 2",
+                        "paragraph": "Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum "
+                    }
+                },
+                {
+                    "componentName": "Text Component",
+                    "componentTemplate": "text_component",
+                    "content": {
+                        "header": "header 3",
+                        "subHeader": "subheader 3",
+                        "paragraph": "Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum Lipsum "
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -188,7 +188,7 @@ export class AppController {
     if (!routeItem) {
       routeItem = this.globalDataObject.errorPage;
     }
-
+  
     const factories = {
       'LANDING_PAGE': LandingpageFactory,
       'STANDARD_PAGE': StandardpageFactory,
