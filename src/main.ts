@@ -10,15 +10,10 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, "..", "public"));
   app.setBaseViewsDir(join(__dirname, "..", "views"));
-  // hbs.registerPartial('navigation_area', '/views/partials/navigation_area.');
   app.setViewEngine("hbs");
-  // hbs.registerPartials(__dirname + '/views/partials');
-
   loadComponents("partials");
   loadComponents("pages");
   loadComponents("components");
-
-  // hbs.registerPartial('navigation_area', '/partials/navigation_area');
 
   app.set("view options", { layout: "/partials/index.hbs" });
 

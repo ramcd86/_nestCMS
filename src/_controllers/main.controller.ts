@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Res } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Res, Req } from "@nestjs/common";
 import { Pages, PageControllers } from "../_utilities/templates.enum";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { FileService } from "../_services/file.service";
 import { Log } from "../_utilities/constants.class";
 
@@ -22,6 +22,16 @@ export class MainController {
       });
   }
 
+  @Post("")
+  public formHander(
+    @Res() res: Response,
+    @Body() body: Body,
+    @Req() req: Request
+  ) {
+    console.log("body", body);
+    this.routeDataConstructor(res, "success");
+  }
+
   @Get("")
   public baseRouteFinder(@Res() res: Response) {
     this.routeDataConstructor(res, "home");
@@ -36,6 +46,7 @@ export class MainController {
   }
 
   private routeDataConstructor(res: Response, param?: string): any {
+    console.log(res.statusCode);
     try {
       let selectedPageContentData:
         | {
@@ -51,7 +62,10 @@ export class MainController {
           );
         }
 
-        if (selectedPageContentData && res.statusCode === 200) {
+        if (
+          selectedPageContentData &&
+          (res.statusCode === 200 || res.statusCode === 201)
+        ) {
           res.render(Pages[selectedPageContentData.pageTemplate], {
             pageComponents: selectedPageContentData.pageComponents
           });

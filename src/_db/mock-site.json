@@ -6,6 +6,11 @@
             "pageSlug": "home",
             "pageComponents": [
                 {
+                    "componentName": "Form Component",
+                    "componentTemplate": "form_component",
+                    "content": {}
+                },
+                {
                     "componentName": "Text Component",
                     "componentTemplate": "text_component",
                     "content": {
@@ -33,6 +38,12 @@
                     }
                 }
             ]
+        },
+        {
+            "pageName": "Success",
+            "pageTemplate": "success_page",
+            "pageSlug": "success",
+            "pageComponents": []
         }
     ]
 }
