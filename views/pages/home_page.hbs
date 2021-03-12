@@ -1,6 +1,4 @@
-SHITBALLS
-
 
     {{#each pageComponents}}
-        {{> (this.templateFunction)}}
+        {{> (this.callTemplate) content=content}}
     {{/each}}

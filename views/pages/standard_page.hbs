@@ -1,0 +1,7 @@
+<div class="standard-page">
+    <div class="standard-page__content">
+        {{#each pageComponents}}
+            {{> (this.callTemplate) data=content}}
+        {{/each}}
+    </div>
+</div>

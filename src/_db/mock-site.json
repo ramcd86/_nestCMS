@@ -2,7 +2,7 @@
     "pages": [
         {
             "pageName": "Home",
-            "pageTemplate": "home_page",
+            "pageTemplate": "standard_page",
             "pageSlug": "home",
             "pageComponents": [
                 {

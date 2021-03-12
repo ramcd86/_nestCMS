@@ -36,7 +36,7 @@ function loadComponents(pathName: string) {
     if (!matches) {
       return;
     }
-    const name = `${pathName}_${matches[1]}`;
+    const name = `${pathName}/${matches[1]}`;
     console.log(name);
     const template = fs.readFileSync(partialsDir + "/" + filename, "utf8");
     hbs.registerPartial(name, template);

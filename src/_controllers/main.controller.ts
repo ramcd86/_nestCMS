@@ -1,14 +1,5 @@
-import { PageFactory } from "./../_factories/page.factory";
-import {
-  Controller,
-  Get,
-  Param,
-  Res,
-  Redirect,
-  HttpStatus,
-  Query
-} from "@nestjs/common";
-import { Pages, Partials, Components } from "../_utilities/templates.enum";
+import { Controller, Get, Param, Res } from "@nestjs/common";
+import { Pages, PageControllers } from "../_utilities/templates.enum";
 import { Response } from "express";
 import { FileService } from "../_services/file.service";
 import { Log } from "../_utilities/constants.class";
@@ -24,7 +15,6 @@ export class MainController {
   private initialiseDatabaseState(): void {
     FileService.queryDb("mock-site")
       .then((response: any) => {
-        console.log(response.payload);
         this.globalSiteData = response.payload;
       })
       .catch((error: any) => {
@@ -34,20 +24,7 @@ export class MainController {
 
   @Get("")
   public baseRouteFinder(@Res() res: Response) {
-    const selectedPageContentData: {
-      pageTemplate: string;
-      pageComponents: unknown[];
-    } = this.routeDataConstructor();
-
-    if (!selectedPageContentData) {
-      res.render(Pages.error_page, {});
-    }
-
-    if (selectedPageContentData && res.statusCode === 200) {
-      res.render(Pages[selectedPageContentData.pageTemplate], {
-        pageComponents: selectedPageContentData.pageComponents
-      });
-    }
+    this.routeDataConstructor(res, "home");
   }
 
   @Get(":id")
@@ -55,47 +32,33 @@ export class MainController {
     @Param() param: { id: string },
     @Res() res: Response
   ) {
-    console.log(param);
-
-    const selectedPageContentData: {
-      pageTemplate: string;
-      pageComponents: unknown[];
-    } = this.routeDataConstructor(param.id);
-
-    if (!selectedPageContentData) {
-      res.render(Pages.error_page, {});
-    }
-
-    if (selectedPageContentData && res.statusCode === 200) {
-      res.render(Pages[selectedPageContentData.pageTemplate], {
-        pageComponents: selectedPageContentData.pageComponents,
-        data: {
-          test: () => {
-            return "components_text_component";
-          }
-        }
-      });
-    }
+    this.routeDataConstructor(res, param.id);
   }
 
-  private routeDataConstructor(param?: string): any {
+  private routeDataConstructor(res: Response, param?: string): any {
     try {
-      if (!param) {
-        return "home_page";
-      }
-      return this.globalSiteData.pages.find(page => {
+      let selectedPageContentData:
+        | {
+            pageTemplate: string;
+            pageComponents: unknown[];
+          }
+        | undefined;
+
+      this.globalSiteData.pages.find(page => {
         if (page.pageSlug === param) {
-          page.pageComponents.forEach(component => {
-            component.templateFunction = () => {
-              return `components_${component.componentTemplate}`;
-            };
+          selectedPageContentData = PageControllers[page.pageTemplate].init(
+            page
+          );
+        }
+
+        if (selectedPageContentData && res.statusCode === 200) {
+          res.render(Pages[selectedPageContentData.pageTemplate], {
+            pageComponents: selectedPageContentData.pageComponents
           });
-          console.log(page.pageComponents);
-          return page;
         }
       });
     } catch {
-      return undefined;
+      res.render(Pages.error_page, {});
     }
   }
 }
