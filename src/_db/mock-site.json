@@ -44,6 +44,12 @@
             "pageTemplate": "success_page",
             "pageSlug": "success",
             "pageComponents": []
+        },
+        {
+            "pageName": "Admin Login",
+            "pageTemplate": "admin_login",
+            "pageSlug": "admin17/login",
+            "pageComponents": []
         }
     ]
 }

@@ -1,3 +1,4 @@
+import { AdminLoginController } from "src/_controllers/_pages/admin-login";
 import { HomePageController } from "src/_controllers/_pages/home-page.controller";
 import { StandardPageController } from "src/_controllers/_pages/standard-page.controller";
 import { SuccessPageController } from "src/_controllers/_pages/success-page.controller";
@@ -6,13 +7,15 @@ export enum Pages {
   error_page = "pages/error_page.hbs",
   home_page = "pages/home_page.hbs",
   standard_page = "pages/standard_page.hbs",
-  success_page = "pages/success_page.hbs"
+  success_page = "pages/success_page.hbs",
+  admin_login = "pages/admin_login.hbs"
 }
 
 export const PageControllers = {
   home_page: HomePageController,
   standard_page: StandardPageController,
-  success_page: SuccessPageController
+  success_page: SuccessPageController,
+  admin_login: AdminLoginController
 };
 
 export enum Components {
