@@ -11,7 +11,7 @@ export class SuccessPageController {
   }
 
   private attachTemplateFunctions(): void {
-    this.page.pageComponents.forEach(component => {
+    this.page.pageComponents.forEach((component: any) => {
       component.callTemplate = () => {
         return `components/${component.componentTemplate}`;
       };

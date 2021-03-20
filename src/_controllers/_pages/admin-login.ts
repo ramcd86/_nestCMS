@@ -11,7 +11,7 @@ export class AdminLoginController {
   }
 
   private attachTemplateFunctions(): void {
-    this.adminLogin.pageComponents.forEach(component => {
+    this.adminLogin.pageComponents.forEach((component: any) => {
       console.log(component);
       component.callTemplate = () => {
         return `components/${component.componentTemplate}`;

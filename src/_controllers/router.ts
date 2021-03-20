@@ -17,22 +17,19 @@ import { Response, Request } from "express";
 import { FileService } from "../_services/file.service";
 import { Log } from "../_utilities/constants.class";
 import { AuthGuard } from "@nestjs/passport";
+import { SiteRoot, DatabaseQueryResolution } from "../_interfaces/interfaces";
 
 @Controller()
 export class Router {
-  private globalSiteData: any;
+  private globalSiteData?: SiteRoot;
 
   constructor(private authService: AuthService) {
-    this.initialiseDatabaseState();
-  }
-
-  private initialiseDatabaseState(): void {
     FileService.queryDb("mock-site")
-      .then((response: any) => {
-        this.globalSiteData = response.payload;
+      .then((response: DatabaseQueryResolution) => {
+        this.globalSiteData = response.payload as SiteRoot;
       })
-      .catch((error: any) => {
-        Log(error.payload);
+      .catch((error: { status: string; payload?: SiteRoot }) => {
+        Log((error.payload as unknown) as string);
       });
   }
 
@@ -42,11 +39,11 @@ export class Router {
 
   @UseGuards(LocalAuthGuard)
   @Post("admin17/login")
-  async login(@Req() req, @Res() res: Response) {
+  async login(@Req() req: any, @Res() res: Response) {
     // const authToken = await this.authService.login(req.user);
     const { user } = req;
-    console.log(user);
-    const cookie = this.authService.getCookieWithJwtToken(req.id);
+    console.log(req);
+    const cookie = this.authService.getCookieWithJwtToken(user.userId);
     res.setHeader("Set-Cookie", cookie);
     return res.send(user);
   }
@@ -57,7 +54,7 @@ export class Router {
 
   @UseGuards(JwtAuthGuard)
   @Get("profile")
-  getProfile(@Req() req, @Res() res) {
+  getProfile(@Req() req: Request, @Res() res: Response) {
     res.send("OK!");
   }
 

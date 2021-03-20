@@ -1,34 +1,33 @@
 import { Response, Request } from "express";
 import { Pages, PageControllers } from "../_utilities/templates.enum";
+import { Page, SiteRoot } from "../_interfaces/interfaces";
 
 export function routeDataConstructor(
   res: Response,
   param: string,
-  globalSiteData: any
+  globalSiteData: SiteRoot | undefined
 ): any {
   try {
-    let selectedPageContentData:
-      | {
-          pageTemplate: string;
-          pageComponents: unknown[];
+    let pageToLoad: Page;
+
+    if (globalSiteData) {
+      globalSiteData.pages.find((singlePage: Page) => {
+        if (singlePage.pageSlug === param) {
+          // @ts-ignore
+          pageToLoad = PageControllers[singlePage.pageTemplate].init(
+            singlePage
+          );
         }
-      | undefined;
 
-    globalSiteData.pages.find(page => {
-      if (page.pageSlug === param) {
-        selectedPageContentData = PageControllers[page.pageTemplate].init(page);
-      }
-
-      if (
-        selectedPageContentData &&
-        (res.statusCode === 200 || res.statusCode === 201)
-      ) {
-        res.render(Pages[selectedPageContentData.pageTemplate], {
-          pageComponents: selectedPageContentData.pageComponents
-        });
-      }
-    });
-  } catch {
-    res.render(Pages.error_page, {});
-  }
+        if (pageToLoad && (res.statusCode === 200 || res.statusCode === 201)) {
+          // @ts-ignore
+          res.render(Pages[pageToLoad.pageTemplate], {
+            pageComponents: pageToLoad.pageComponents
+          });
+        }
+      });
+    } else {
+      res.render(Pages.error_page, {});
+    }
+  } catch {}
 }

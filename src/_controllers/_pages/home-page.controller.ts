@@ -11,7 +11,7 @@ export class HomePageController {
   }
 
   private attachTemplateFunctions(): void {
-    this.homePage.pageComponents.forEach(component => {
+    this.homePage.pageComponents.forEach((component: any) => {
       console.log(component);
       component.callTemplate = () => {
         return `components/${component.componentTemplate}`;
